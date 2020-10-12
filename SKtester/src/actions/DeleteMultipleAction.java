@@ -4,6 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import gui.DeleteMultipleDialog;
+import gui.DeleteSingleDialog;
+import gui.MainFrame;
+
 public class DeleteMultipleAction  extends AbstractAction {
 
 	public DeleteMultipleAction() {
@@ -14,6 +18,7 @@ public class DeleteMultipleAction  extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-
+		DeleteMultipleDialog dialog = new DeleteMultipleDialog(MainFrame.getInstance(), "New Entity", true);
+		dialog.setVisible(true);
 	}
 }

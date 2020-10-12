@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -72,6 +73,11 @@ public class StartFrame extends JFrame {
 
 		add(pan1, BorderLayout.CENTER);
 		add(pan2, BorderLayout.SOUTH);
+	}
+
+	public void setSelectedFile(String selectedFile) {
+		textField.setText(selectedFile);
+
 	}
 
 }

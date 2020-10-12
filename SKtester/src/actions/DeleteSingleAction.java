@@ -4,6 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import gui.DeleteSingleDialog;
+import gui.MainFrame;
+import gui.SearchDialog;
+
 public class DeleteSingleAction  extends AbstractAction {
 
 	public DeleteSingleAction() {
@@ -14,6 +18,7 @@ public class DeleteSingleAction  extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-
+		DeleteSingleDialog dialog = new DeleteSingleDialog(MainFrame.getInstance(), "New Entity", true);
+		dialog.setVisible(true);
 	}
 }

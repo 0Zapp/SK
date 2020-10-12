@@ -4,6 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import gui.AddSubentityDialog;
+import gui.MainFrame;
+import gui.NewEntityDialog;
+
 public class AddSubEntityAction extends AbstractAction {
 
 	public AddSubEntityAction() {
@@ -14,6 +18,7 @@ public class AddSubEntityAction extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-
+		AddSubentityDialog dialog = new AddSubentityDialog(MainFrame.getInstance(), "New Entity", true);
+		dialog.setVisible(true);
 	}
 }
