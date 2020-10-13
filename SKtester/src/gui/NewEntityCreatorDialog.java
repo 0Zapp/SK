@@ -15,10 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
-public class DeleteSingleDialog extends JDialog implements ActionListener {
+public class NewEntityCreatorDialog extends JDialog implements ActionListener {
 
-	public DeleteSingleDialog(Frame parent, String title, boolean modal) {
+	public NewEntityCreatorDialog(Frame parent, String title, boolean modal) {
 
 		super(parent, title, modal);
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -26,12 +27,12 @@ public class DeleteSingleDialog extends JDialog implements ActionListener {
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
 
-		setSize((screenWidth / 5), (screenHeight / 10));
+		setSize((screenWidth / 15) * 2, (screenHeight / 10));
 		setLocationRelativeTo(null);
 
 		try {
 
-			JLabel lbl1 = new JLabel("DeleteID:", SwingConstants.CENTER);
+			JLabel lbl1 = new JLabel("ID", SwingConstants.CENTER);
 			JTextField txtField = new JTextField("", SwingConstants.CENTER);
 
 			JButton ConfirmButton = new JButton("Confirm");

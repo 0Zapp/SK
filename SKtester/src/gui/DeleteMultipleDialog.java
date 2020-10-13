@@ -5,13 +5,18 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class DeleteMultipleDialog extends JDialog {
+public class DeleteMultipleDialog extends JDialog implements ActionListener {
 
 	public DeleteMultipleDialog(Frame parent, String title, boolean modal) {
 
@@ -21,34 +26,44 @@ public class DeleteMultipleDialog extends JDialog {
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
 
-		setSize((screenWidth / 10) * 4, (screenHeight / 10) * 4);
+		setSize((screenWidth / 3), (screenHeight / 15) * 2);
 		setLocationRelativeTo(null);
 
 		try {
 
-			JLabel lbl1 = new JLabel("Mihajlo Krsmanovic RN17-2018", SwingConstants.CENTER);
+			JLabel lbl1 = new JLabel("Delete Parametars:", SwingConstants.CENTER);
+			JTextField txtField = new JTextField("", SwingConstants.CENTER);
 
-			JLabel lbl2 = new JLabel("Marko Nedeljkovic RN20-2018", SwingConstants.CENTER);
+			JButton ConfirmButton = new JButton("Confirm");
+			JButton CancelButton = new JButton("Cancel");
 
-			JPanel leftBorder = new JPanel();
-			leftBorder.setLayout(new BorderLayout());
+			setLayout(new GridLayout(3, 1));
+			add(lbl1);
+			add(txtField);
 
-			leftBorder.add(lbl1, BorderLayout.SOUTH);
+			JPanel grid = new JPanel();
+			grid.setLayout(new GridLayout(1, 2));
+			grid.add(ConfirmButton);
+			grid.add(CancelButton);
 
-			JPanel rightBorder = new JPanel();
-			rightBorder.setLayout(new BorderLayout());
+			add(grid);
 
-			rightBorder.add(lbl2, BorderLayout.SOUTH);
+			ConfirmButton.addActionListener(this);
+			CancelButton.addActionListener(this);
 
-			JPanel pane = new JPanel();
-			pane.setLayout(new GridLayout(1, 2));
-			pane.add(leftBorder);
-			pane.add(rightBorder);
-
-			add(pane, BorderLayout.CENTER);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("Cancel")) {
+			this.dispose();
+		} else {
+			this.dispose();
+		}
+
 	}
 
 }

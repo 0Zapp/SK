@@ -5,13 +5,19 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class AddSubentityDialog extends JDialog {
+public class AddSubentityDialog extends JDialog implements ActionListener {
 
 	public AddSubentityDialog(Frame parent, String title, boolean modal) {
 
@@ -21,34 +27,52 @@ public class AddSubentityDialog extends JDialog {
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
 
-		setSize((screenWidth / 10) * 4, (screenHeight / 10) * 4);
+		setSize((screenWidth / 15) * 2, (screenHeight / 15) * 2);
 		setLocationRelativeTo(null);
 
 		try {
 
-			JLabel lbl1 = new JLabel("Mihajlo Krsmanovic RN17-2018", SwingConstants.CENTER);
+			JLabel parentLbl = new JLabel("Select Parent", SwingConstants.CENTER);
+			JComboBox<String> parentCombo = new JComboBox<String>();
 
-			JLabel lbl2 = new JLabel("Marko Nedeljkovic RN20-2018", SwingConstants.CENTER);
+			JLabel KeyLbl = new JLabel("Select Key", SwingConstants.CENTER);
+			JComboBox<String> KeyCombo = new JComboBox<String>();
 
-			JPanel leftBorder = new JPanel();
-			leftBorder.setLayout(new BorderLayout());
+			JLabel childLbl = new JLabel("Select Child", SwingConstants.CENTER);
+			JComboBox<String> childCombo = new JComboBox<String>();
 
-			leftBorder.add(lbl1, BorderLayout.SOUTH);
+			JButton ConfirmButton = new JButton("Confirm");
+			JButton CancelButton = new JButton("Cancel");
 
-			JPanel rightBorder = new JPanel();
-			rightBorder.setLayout(new BorderLayout());
+			setLayout(new GridLayout(4, 2));
+			add(parentLbl);
+			add(parentCombo);
 
-			rightBorder.add(lbl2, BorderLayout.SOUTH);
+			add(KeyLbl);
+			add(KeyCombo);
 
-			JPanel pane = new JPanel();
-			pane.setLayout(new GridLayout(1, 2));
-			pane.add(leftBorder);
-			pane.add(rightBorder);
+			add(childLbl);
+			add(childCombo);
 
-			add(pane, BorderLayout.CENTER);
+			add(ConfirmButton);
+			add(CancelButton);
+
+			ConfirmButton.addActionListener(this);
+			CancelButton.addActionListener(this);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("Cancel")) {
+			this.dispose();
+		} else {
+			this.dispose();
+		}
+
 	}
 
 }

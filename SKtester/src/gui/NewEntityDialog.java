@@ -5,13 +5,19 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
-public class NewEntityDialog extends JDialog {
+public class NewEntityDialog extends JDialog implements ActionListener {
 
 	public NewEntityDialog(Frame parent, String title, boolean modal) {
 
@@ -21,34 +27,46 @@ public class NewEntityDialog extends JDialog {
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
 
-		setSize((screenWidth / 10) * 4, (screenHeight / 10) * 4);
+		setSize((screenWidth / 15) * 2, (screenHeight / 15) * 2);
 		setLocationRelativeTo(null);
 
 		try {
 
-			JLabel lbl1 = new JLabel("Mihajlo Krsmanovic RN17-2018", SwingConstants.CENTER);
+			JLabel lbl1 = new JLabel("Number of values", SwingConstants.CENTER);
+			JTextField txtField = new JTextField("1", SwingConstants.CENTER);
 
-			JLabel lbl2 = new JLabel("Marko Nedeljkovic RN20-2018", SwingConstants.CENTER);
+			JCheckBox check = new JCheckBox("Custom ID");
+			JLabel customID = new JLabel("", SwingConstants.CENTER);
 
-			JPanel leftBorder = new JPanel();
-			leftBorder.setLayout(new BorderLayout());
+			JButton ConfirmButton = new JButton("Confirm");
+			JButton CancelButton = new JButton("Cancel");
 
-			leftBorder.add(lbl1, BorderLayout.SOUTH);
+			setLayout(new GridLayout(3, 2));
+			add(lbl1);
+			add(txtField);
+			add(check);
+			add(customID);
+			add(ConfirmButton);
+			add(CancelButton);
 
-			JPanel rightBorder = new JPanel();
-			rightBorder.setLayout(new BorderLayout());
+			ConfirmButton.addActionListener(this);
+			CancelButton.addActionListener(this);
 
-			rightBorder.add(lbl2, BorderLayout.SOUTH);
-
-			JPanel pane = new JPanel();
-			pane.setLayout(new GridLayout(1, 2));
-			pane.add(leftBorder);
-			pane.add(rightBorder);
-
-			add(pane, BorderLayout.CENTER);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("Cancel")) {
+			this.dispose();
+		} else {
+			NewEntityCreatorDialog dialog = new NewEntityCreatorDialog(MainFrame.getInstance(), "New Entity Creator", true);
+			dialog.setVisible(true);
+			this.dispose();
+		}
+
 	}
 
 }

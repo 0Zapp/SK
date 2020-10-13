@@ -8,6 +8,8 @@ public class MyToolbar extends JToolBar {
 
 		add(MainFrame.getInstance().getActionManager().getNewEntityAction());
 		addSeparator();
+		add(MainFrame.getInstance().getActionManager().getUpdateAction());
+		addSeparator();
 		add(MainFrame.getInstance().getActionManager().getAddSubEntityAction());
 		addSeparator();
 		add(MainFrame.getInstance().getActionManager().getSearchAction());

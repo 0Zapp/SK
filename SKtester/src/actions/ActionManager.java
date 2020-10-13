@@ -10,6 +10,7 @@ public class ActionManager {
 	private StartLaunchAction startLaunchAction;
 
 	private NewEntityAction newEntityAction;
+	private UpdateAction updateAction;
 	private AddSubEntityAction addSubEntityAction;
 	private SearchAction searchAction;
 	private DeleteSingleAction deleteSingleAction;
@@ -31,7 +32,7 @@ public class ActionManager {
 		deleteSingleAction = new DeleteSingleAction();
 		deleteMultipleAction = new DeleteMultipleAction();
 		configurationAction = new ConfigurationAction();
-
+		updateAction = new UpdateAction();
 	}
 
 	private void initialiseStartActions(StartFrame startFrame) {
@@ -56,6 +57,10 @@ public class ActionManager {
 
 	public StartNewAction getStartNewAction() {
 		return startNewAction;
+	}
+
+	public UpdateAction getUpdateAction() {
+		return updateAction;
 	}
 
 	public NewEntityAction getNewEntityAction() {
