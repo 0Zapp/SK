@@ -58,10 +58,15 @@ public abstract class DBHandler {
         }
 	};
 	
-	// TODO
-	public ArrayList<String> searchData() {
+	public ArrayList<String> searchData(String key, Object value) {
 		System.out.println("searching");
-		return new ArrayList<>();
+		ArrayList<String> matchedKeys = new ArrayList<>();
+		for (Map.Entry<String, HashMap<String, Object>> pair: data.entrySet()) {
+			HashMap<String, Object> entity = pair.getValue();
+			if (entity.get(key).equals(value))
+				matchedKeys.add(pair.getKey());
+		}
+		return matchedKeys;
 	}
 	
 	public void addEntity(String key, HashMap<String, Object> entity) {
