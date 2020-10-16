@@ -1,6 +1,10 @@
 package jsonHandler;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import DBHandler.DBHandler;
 
@@ -8,19 +12,21 @@ public class JsonHandler extends DBHandler {
 
 	public JsonHandler(String path, int entitiesPerFile) {
 		super(path, entitiesPerFile);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public HashMap<String, HashMap<String, Object>> load(String path) {
-		// TODO Auto-generated method stub
-		return null;
+		Gson gson = new Gson();
+		Type type = new TypeToken<HashMap<String, HashMap<String, Object>>>() {
+		}.getType();
+		HashMap<String, HashMap<String, Object>> map = gson.fromJson(path, type);
+		return map;
 	}
 
 	@Override
 	public void dump(String path, HashMap<String, HashMap<String, Object>> data) {
-		// TODO Auto-generated method stub
-		
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(data);
 	}
 
 }

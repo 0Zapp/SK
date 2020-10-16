@@ -82,6 +82,7 @@ public abstract class DBHandler {
 		int storedElements = 0;
 		int currentFile = 0;
 		HashMap<String, HashMap<String, Object>> toStore = new HashMap<>();
+
 		for (Map.Entry<String, HashMap<String, Object>> pair : data.entrySet()) {
 			toStore.put(pair.getKey(), pair.getValue());
 			storedElements++;
