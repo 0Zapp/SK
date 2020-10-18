@@ -1,0 +1,7 @@
+- !!model.Entity
+  data:
+    abc: def
+    zxv: 123
+    wpf: true
+  id: '123'
+  name: test

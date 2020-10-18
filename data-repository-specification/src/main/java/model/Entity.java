@@ -1,12 +1,18 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Entity {
+public class Entity implements Serializable {
 	private String id;
 	private String name;
 	private Map<String, Object> data;
 	
+	@Override
+	public String toString() {
+		return "Entity [id=" + id + ", name=" + name + ", data=" + data + "]";
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -31,10 +37,7 @@ public class Entity {
 		this.data = data;
 	}
 
-	public Entity(String id, String name, Map<String, Object> data) {
-		this.id = id;
-		this.name = name;
-		this.data = data;
+	public Entity() {
 	}
 	
 	

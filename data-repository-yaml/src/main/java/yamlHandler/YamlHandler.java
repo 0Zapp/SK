@@ -1,8 +1,14 @@
 package yamlHandler;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import DBHandler.DBHandler;
@@ -17,19 +23,32 @@ public class YamlHandler extends DBHandler {
 
 	@Override
 	public List<Entity> load(String path) {
-		Yaml yaml = new Yaml();
-		InputStream inputStream = this.getClass()
-		  .getClassLoader()
-		  .getResourceAsStream(path);
-		List<Entity> obj = yaml.load(inputStream);
-		System.out.println(obj);
-		return obj;
+		InputStream inputStream;
+		try {
+			inputStream = new FileInputStream(new File(path));
+			Yaml yaml = new Yaml();
+			List<Entity> obj = (List<Entity>) yaml.load(inputStream);
+			return obj;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public void dump(String path, List<Entity> data) {
-		// TODO Auto-generated method stub
-		
+		DumperOptions options = new DumperOptions();
+		options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+		options.setPrettyFlow(true);
+		Yaml yaml = new Yaml(options);
+		FileWriter writer;
+		try {
+			writer = new FileWriter(path);
+			yaml.dump(data, writer);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
