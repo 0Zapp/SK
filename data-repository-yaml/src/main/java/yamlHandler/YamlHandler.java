@@ -1,8 +1,12 @@
 package yamlHandler;
 
-import java.util.HashMap;
+import java.io.InputStream;
+import java.util.List;
+
+import org.yaml.snakeyaml.Yaml;
 
 import DBHandler.DBHandler;
+import model.Entity;
 
 public class YamlHandler extends DBHandler {
 
@@ -12,13 +16,18 @@ public class YamlHandler extends DBHandler {
 	}
 
 	@Override
-	public HashMap<String, HashMap<String, Object>> load(String path) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Entity> load(String path) {
+		Yaml yaml = new Yaml();
+		InputStream inputStream = this.getClass()
+		  .getClassLoader()
+		  .getResourceAsStream(path);
+		List<Entity> obj = yaml.load(inputStream);
+		System.out.println(obj);
+		return obj;
 	}
 
 	@Override
-	public void dump(String path, HashMap<String, HashMap<String, Object>> data) {
+	public void dump(String path, List<Entity> data) {
 		// TODO Auto-generated method stub
 		
 	}

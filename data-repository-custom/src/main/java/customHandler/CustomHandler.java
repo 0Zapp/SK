@@ -1,8 +1,9 @@
 package customHandler;
 
-import java.util.HashMap;
+import java.util.List;
 
 import DBHandler.DBHandler;
+import model.Entity;
 
 public class CustomHandler extends DBHandler {
 
@@ -12,15 +13,15 @@ public class CustomHandler extends DBHandler {
 	}
 
 	@Override
-	public HashMap<String, HashMap<String, Object>> load(String path) {
+	public void dump(String path, List<Entity> data) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
-	public void dump(String path, HashMap<String, HashMap<String, Object>> data) {
+	public List<Entity> load(String path) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }

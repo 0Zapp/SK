@@ -3,10 +3,10 @@ package DBHandler;
 import java.io.File;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
+import model.Entity;
 
 /**
  * This class is bla bla
@@ -17,7 +17,7 @@ import javax.management.openmbean.KeyAlreadyExistsException;
 
 //param, author,return, throws
 public abstract class DBHandler {
-	private HashMap<String, HashMap<String, Object>> data;
+	private List<Entity> data;
 	private String basePath;
 	private int entitiesPerFile;
 
@@ -30,7 +30,7 @@ public abstract class DBHandler {
 	 */
 	public DBHandler(String path, int entitiesPerFile) {
 		this.basePath = path;
-		this.data = new HashMap<>();
+		this.data = new ArrayList<>();
 		this.entitiesPerFile = entitiesPerFile;
 	}
 
@@ -40,7 +40,7 @@ public abstract class DBHandler {
 	 * @param path
 	 * @return HashMap
 	 */
-	public abstract HashMap<String, HashMap<String, Object>> load(String path);
+	public abstract List<Entity> load(String path);
 
 	/**
 	 * This is the description
@@ -48,7 +48,7 @@ public abstract class DBHandler {
 	 * @param path
 	 * @param data
 	 */
-	public abstract void dump(String path, HashMap<String, HashMap<String, Object>> data);
+	public abstract void dump(String path, List<Entity> data);
 
 	/**
 	 * This is the description
@@ -57,14 +57,14 @@ public abstract class DBHandler {
 	 */
 	public void loadData(String path) {
 		File f = new File(path);
-		HashMap<String, HashMap<String, Object>> output = new HashMap<>();
+		List<Entity> output = new ArrayList<>();
 		String[] pathnames = f.list();
 
 		for (String pathname : pathnames) {
 			File f2 = new File(path, pathname);
 			try {
-				HashMap<String, HashMap<String, Object>> loaded = load(f2.getPath());
-				output.putAll(loaded);
+				List<Entity> loaded = load(f2.getPath());
+				output.addAll(loaded);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -81,10 +81,10 @@ public abstract class DBHandler {
 	public void saveData(String path) {
 		int storedElements = 0;
 		int currentFile = 0;
-		HashMap<String, HashMap<String, Object>> toStore = new HashMap<>();
+		List<Entity> toStore = new ArrayList<>();
 
-		for (Map.Entry<String, HashMap<String, Object>> pair : data.entrySet()) {
-			toStore.put(pair.getKey(), pair.getValue());
+		for (Entity entity : data) {
+			toStore.add(entity);
 			storedElements++;
 			if (entitiesPerFile > 0 && storedElements == entitiesPerFile) {
 				dump(String.valueOf(currentFile), toStore);
@@ -105,27 +105,26 @@ public abstract class DBHandler {
 	 * @param value
 	 * @return ArrayList
 	 */
-	public ArrayList<String> searchData(String key, Object value) {
+	public List<Entity> searchData(String key, Object value) {
 		System.out.println("searching");
-		ArrayList<String> matchedKeys = new ArrayList<>();
-		for (Map.Entry<String, HashMap<String, Object>> pair : data.entrySet()) {
-			HashMap<String, Object> entity = pair.getValue();
-			if (entity.get(key).equals(value))
-				matchedKeys.add(pair.getKey());
+		ArrayList<Entity> matchedEntities = new ArrayList<>();
+		for (Entity entity : data) {
+			if (entity.getData().get(key).equals(value))
+				matchedEntities.add(entity);
 		}
-		return matchedKeys;
+		return matchedEntities;
 	}
 
 	/**
 	 * This is the description
 	 * 
-	 * @param key
 	 * @param entity
 	 */
-	public void addEntity(String key, HashMap<String, Object> entity) {
-		if (data.containsKey(key))
-			throw new KeyAlreadyExistsException();
-		data.put(key, entity);
+	public void addEntity(Entity entity) {
+		for (Entity e : data)
+			if (e.getId().equals(entity.getId()))
+				throw new KeyAlreadyExistsException();
+		data.add(entity);
 	}
 
 	/**
@@ -134,7 +133,9 @@ public abstract class DBHandler {
 	 * @param key
 	 */
 	public void deleteEntity(String key) {
-		data.remove(key);
+		for (Entity e : data)
+			if (e.getId().equals(key))
+				data.remove(e);
 	}
 
 	/**
@@ -150,11 +151,14 @@ public abstract class DBHandler {
 	/**
 	 * This is the description
 	 * 
-	 * @param key
 	 * @param entity
 	 */
-	public void editEntity(String key, HashMap<String, Object> entity) {
-		data.put(key, entity);
+	public void editEntity(Entity entity) {
+		for (Entity e : data) {
+			if (e.getId().equals(entity.getId())) {
+				data.set(data.indexOf(e), entity);
+			}
+		}
 	}
 
 	/**
@@ -163,10 +167,13 @@ public abstract class DBHandler {
 	 * @param keys
 	 * @return HashMap
 	 */
-	public HashMap<String, HashMap<String, Object>> getData(ArrayList<String> keys) {
-		HashMap<String, HashMap<String, Object>> map = new HashMap<>(data);
-		map.keySet().retainAll(keys);
-		return map;
+	public List<Entity> getData(ArrayList<String> keys) {
+		 List<Entity> output = new ArrayList<>(data);
+		 for (Entity entity : output) {
+			 if (!keys.contains(entity.getId()))
+				 output.remove(entity);
+		 }
+		return output;
 	}
 
 	/**
@@ -174,7 +181,7 @@ public abstract class DBHandler {
 	 * 
 	 * @return HashMap
 	 */
-	public HashMap<String, HashMap<String, Object>> getData() {
+	public List<Entity> getData() {
 		return data;
 	}
 
@@ -183,7 +190,7 @@ public abstract class DBHandler {
 	 * 
 	 * @param data
 	 */
-	public void setData(HashMap<String, HashMap<String, Object>> data) {
+	public void setData(List<Entity> data) {
 		this.data = data;
 	}
 
