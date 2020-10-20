@@ -15,6 +15,7 @@ public class StartLaunchAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
+		String path = startFrame.getSelectedFile();
 		MainFrame mf = MainFrame.getInstance();
 		startFrame.dispose();
 		mf.setVisible(true);

@@ -80,4 +80,9 @@ public class StartFrame extends JFrame {
 
 	}
 
+	public String getSelectedFile() {
+		return textField.getText();
+
+	}
+
 }
