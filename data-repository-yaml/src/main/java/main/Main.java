@@ -22,10 +22,10 @@ public class Main {
 		map.put("wpf", true);
 		e.setData(map);
 		data.add(e);
-		yh.dump("test.yaml", data);
-		System.out.println("Dumped");
-		yh.load("test.yaml");
-		System.out.println(data);
+		yh.setData(data);
+		yh.saveData(".");
+		yh.loadData(".");
+		System.out.println(yh.getData());
 
 	}
 

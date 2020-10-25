@@ -22,7 +22,7 @@ public class JsonHandler extends DBHandler {
 	}
 
 	@Override
-	public List<Entity> load(String path) {
+	protected List<Entity> load(String path) {
 		List<Entity> map = null;
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(path));
@@ -37,7 +37,7 @@ public class JsonHandler extends DBHandler {
 	}
 
 	@Override
-	public void dump(String path, List<Entity> data) {
+	protected void dump(String path, List<Entity> data) {
 		try {
 			Writer writer = new FileWriter(path);
 			Gson gson = new Gson();

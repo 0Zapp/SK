@@ -22,7 +22,7 @@ public class YamlHandler extends DBHandler {
 	}
 
 	@Override
-	public List<Entity> load(String path) {
+	protected List<Entity> load(String path) {
 		InputStream inputStream;
 		try {
 			inputStream = new FileInputStream(new File(path));
@@ -36,7 +36,7 @@ public class YamlHandler extends DBHandler {
 	}
 
 	@Override
-	public void dump(String path, List<Entity> data) {
+	protected void dump(String path, List<Entity> data) {
 		DumperOptions options = new DumperOptions();
 		options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 		options.setPrettyFlow(true);

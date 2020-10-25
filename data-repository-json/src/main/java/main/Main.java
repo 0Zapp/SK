@@ -21,9 +21,10 @@ public class Main {
 		map.put("wpf", true);
 		e.setData(map);
 		data.add(e);
-		yh.dump("test.json", data);
-		data=yh.load("test.json");
-		System.out.println(data);
+		yh.setData(data);
+		yh.saveData(".");
+		yh.loadData(".");
+		System.out.println(yh.getData());
 	}
 
 }
