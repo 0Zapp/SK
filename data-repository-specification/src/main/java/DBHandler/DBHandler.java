@@ -247,4 +247,15 @@ public abstract class DBHandler {
 	public void setBasePath(String basePath) {
 		this.basePath = basePath;
 	}
+
+	public void setEntitiesPerFile(int entitiesPerFile) {
+		this.entitiesPerFile = entitiesPerFile;
+		try {
+			FileWriter fw = new FileWriter(new File(basePath, config));
+		    fw.write(String.valueOf(entitiesPerFile));
+		    fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
