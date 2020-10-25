@@ -1,7 +1,10 @@
 package DBHandler;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public abstract class DBHandler {
 	private List<Entity> data;
 	private String basePath;
 	private int entitiesPerFile;
+	private final String config = "config.txt";
 
 	/**
 	 * This is the description
@@ -32,6 +36,29 @@ public abstract class DBHandler {
 		this.basePath = path;
 		this.data = new ArrayList<>();
 		this.entitiesPerFile = entitiesPerFile;
+		try {
+			FileWriter fw = new FileWriter(new File(path, config));
+		    fw.write(String.valueOf(entitiesPerFile));
+		    fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public DBHandler(String path) throws Exception {
+		File f = new File(path, config);
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			String line = br.readLine().trim();
+			int epf = Integer.parseInt(line);
+			this.basePath = path;
+			this.data = new ArrayList<>();
+			this.entitiesPerFile = epf;
+			br.close();
+		} catch (Exception e) {
+			throw new Exception("Unable to open config file.");
+		}
+		
 	}
 
 	/**
@@ -40,7 +67,7 @@ public abstract class DBHandler {
 	 * @param path
 	 * @return HashMap
 	 */
-	public abstract List<Entity> load(String path);
+	protected abstract List<Entity> load(String path);
 
 	/**
 	 * This is the description
@@ -48,7 +75,11 @@ public abstract class DBHandler {
 	 * @param path
 	 * @param data
 	 */
-	public abstract void dump(String path, List<Entity> data);
+	protected abstract void dump(String path, List<Entity> data);
+
+	public void loadData() {
+		loadData(basePath);
+	}
 
 	/**
 	 * This is the description
@@ -61,6 +92,8 @@ public abstract class DBHandler {
 		String[] pathnames = f.list();
 
 		for (String pathname : pathnames) {
+			if (pathname.equals(config))
+				continue;
 			File f2 = new File(path, pathname);
 			try {
 				List<Entity> loaded = load(f2.getPath());
@@ -72,6 +105,10 @@ public abstract class DBHandler {
 		}
 		this.data = output;
 	};
+	
+	public void saveData() {
+		saveData(basePath);
+	}
 
 	/**
 	 * This is the description
@@ -92,7 +129,6 @@ public abstract class DBHandler {
 				toStore.clear();
 			}
 		}
-		;
 		if (!toStore.isEmpty()) {
 			dump(String.valueOf(currentFile), toStore);
 		}
