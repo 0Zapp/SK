@@ -45,6 +45,7 @@ public class YamlHandler extends DBHandler {
 		try {
 			writer = new FileWriter(path);
 			yaml.dump(data, writer);
+			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

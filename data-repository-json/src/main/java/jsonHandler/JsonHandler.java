@@ -1,6 +1,12 @@
 package jsonHandler;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -17,17 +23,30 @@ public class JsonHandler extends DBHandler {
 
 	@Override
 	public List<Entity> load(String path) {
-		Gson gson = new Gson();
-		Type type = new TypeToken<List<Entity>>() {
-		}.getType();
-		List<Entity> map = gson.fromJson(path, type);
+		List<Entity> map = null;
+		try {
+			Reader reader = Files.newBufferedReader(Paths.get(path));
+			Gson gson = new Gson();
+			Type type = new TypeToken<List<Entity>>() {
+			}.getType();
+			map = gson.fromJson(reader, type);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return map;
 	}
 
 	@Override
 	public void dump(String path, List<Entity> data) {
-		Gson gson = new Gson();
-		String jsonString = gson.toJson(data);
+		try {
+			Writer writer = new FileWriter(path);
+			Gson gson = new Gson();
+			gson.toJson(data, writer);
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

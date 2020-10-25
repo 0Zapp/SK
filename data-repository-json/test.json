@@ -1,18 +1,1 @@
-[
-	{
-        "id": "123",
-        "name": "abc",
-        "data": {
-            "test": "test",
-            "abc": 123
-        }
-    },
-    {
-        "id": "345",
-        "name": "dcf",
-        "data": {
-            "ratsie": "qwfp",
-            "arst": 5234
-        }
-    }
-]
+[{"id":"123","name":"test","data":{"abc":"def","zxv":123,"wpf":true}}]
