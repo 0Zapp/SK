@@ -19,6 +19,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
 
 import DBHandler.DBHandler;
@@ -27,8 +28,8 @@ import model.Entity;
 
 public class MainFrame extends JFrame implements ClipboardOwner {
 
-	DBHandler db;
-	ArrayList<Entity> entities;
+	private DBHandler db;
+	private ArrayList<Entity> entities;
 
 	private MainFrame(DBHandler db) {
 		this.db = db;
@@ -45,7 +46,7 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 	private int screenHeight;
 	private MyToolbar toolbar;
 	private JTable entityView;
-	JScrollPane sp;
+	private JScrollPane sp;
 
 	private Clipboard clipboard = new Clipboard("clipboard");
 
@@ -83,7 +84,7 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 
 		String data[][] = generateData();
 		String column[] = { "ID", "NAME", "DATA" };
-		entityView = new JTable(data, column);
+		entityView = new JTable(new DefaultTableModel(data, column));
 		entityView.getColumnModel().getColumn(0).setPreferredWidth(50);
 		entityView.getColumnModel().getColumn(1).setPreferredWidth(50);
 		entityView.getColumnModel().getColumn(2).setPreferredWidth(600);
@@ -150,6 +151,26 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {
 		// TODO Auto-generated method stub
 		System.out.println("lostOwnership");
+
+	}
+
+	public DBHandler getDb() {
+		return db;
+	}
+
+	public void refresh() {
+		entities = (ArrayList<Entity>) db.getData();
+		String data[][] = generateData();
+		DefaultTableModel dm = (DefaultTableModel) entityView.getModel();
+		int rowCount = dm.getRowCount();
+		// Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+			dm.removeRow(i);
+		}
+		for (String[] e : data) {
+			DefaultTableModel model = (DefaultTableModel) entityView.getModel();
+			model.addRow(e);
+		}
 
 	}
 }

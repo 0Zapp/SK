@@ -7,7 +7,7 @@ public class Entity implements Serializable {
 	private String id;
 	private String name;
 	private Map<String, Object> data;
-	
+
 	@Override
 	public String toString() {
 		return "Entity [id=" + id + ", name=" + name + ", data=" + data + "]";
@@ -39,6 +39,11 @@ public class Entity implements Serializable {
 
 	public Entity() {
 	}
-	
-	
+
+	public Entity(String id, String name, Map<String, Object> data) {
+		this.id = id;
+		this.name = name;
+		this.data = data;
+	}
+
 }
