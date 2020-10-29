@@ -38,13 +38,13 @@ public abstract class DBHandler {
 		this.entitiesPerFile = entitiesPerFile;
 		try {
 			FileWriter fw = new FileWriter(new File(path, config));
-		    fw.write(String.valueOf(entitiesPerFile));
-		    fw.close();
+			fw.write(String.valueOf(entitiesPerFile));
+			fw.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public DBHandler(String path) throws Exception {
 		File f = new File(path, config);
 		try {
@@ -58,7 +58,7 @@ public abstract class DBHandler {
 		} catch (Exception e) {
 			throw new Exception("Unable to open config file.");
 		}
-		
+
 	}
 
 	/**
@@ -73,9 +73,10 @@ public abstract class DBHandler {
 	 * This is the description
 	 * 
 	 * @param path
+	 * @param fileName
 	 * @param data
 	 */
-	protected abstract void dump(String path, List<Entity> data);
+	protected abstract void dump(String path, String fileName, List<Entity> data);
 
 	public void loadData() {
 		loadData(basePath);
@@ -105,7 +106,7 @@ public abstract class DBHandler {
 		}
 		this.data = output;
 	};
-	
+
 	public void saveData() {
 		saveData(basePath);
 	}
@@ -123,14 +124,14 @@ public abstract class DBHandler {
 		for (Entity entity : data) {
 			toStore.add(entity);
 			storedElements++;
-			if (entitiesPerFile > 0 && storedElements == entitiesPerFile) {
-				dump(String.valueOf(currentFile), toStore);
+			if (entitiesPerFile > 0 && toStore.size() == entitiesPerFile) {
+				dump(path, String.valueOf(currentFile), toStore);
 				currentFile++;
 				toStore.clear();
 			}
 		}
 		if (!toStore.isEmpty()) {
-			dump(String.valueOf(currentFile), toStore);
+			dump(path, String.valueOf(currentFile), toStore);
 		}
 	};
 
@@ -169,9 +170,12 @@ public abstract class DBHandler {
 	 * @param key
 	 */
 	public void deleteEntity(String key) {
-		for (Entity e : data)
-			if (e.getId().equals(key))
+		for (Entity e : data) {
+			if (e.getId().equals(key)) {
 				data.remove(e);
+				return;
+			}
+		}
 	}
 
 	/**
@@ -204,11 +208,11 @@ public abstract class DBHandler {
 	 * @return HashMap
 	 */
 	public List<Entity> getData(ArrayList<String> keys) {
-		 List<Entity> output = new ArrayList<>(data);
-		 for (Entity entity : output) {
-			 if (!keys.contains(entity.getId()))
-				 output.remove(entity);
-		 }
+		List<Entity> output = new ArrayList<>(data);
+		for (Entity entity : output) {
+			if (!keys.contains(entity.getId()))
+				output.remove(entity);
+		}
 		return output;
 	}
 
@@ -252,10 +256,14 @@ public abstract class DBHandler {
 		this.entitiesPerFile = entitiesPerFile;
 		try {
 			FileWriter fw = new FileWriter(new File(basePath, config));
-		    fw.write(String.valueOf(entitiesPerFile));
-		    fw.close();
+			fw.write(String.valueOf(entitiesPerFile));
+			fw.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public int getEntitiesPerFile() {
+		return entitiesPerFile;
 	}
 }

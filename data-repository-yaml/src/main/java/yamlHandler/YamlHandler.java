@@ -41,14 +41,14 @@ public class YamlHandler extends DBHandler {
 	}
 
 	@Override
-	protected void dump(String path, List<Entity> data) {
+	protected void dump(String path, String fileName, List<Entity> data) {
 		DumperOptions options = new DumperOptions();
 		options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 		options.setPrettyFlow(true);
 		Yaml yaml = new Yaml(options);
 		FileWriter writer;
 		try {
-			writer = new FileWriter(path);
+			writer = new FileWriter(path + "\\" + fileName);
 			yaml.dump(data, writer);
 			writer.close();
 		} catch (IOException e) {

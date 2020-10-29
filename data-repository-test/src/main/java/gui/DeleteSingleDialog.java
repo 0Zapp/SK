@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 
 public class DeleteSingleDialog extends JDialog implements ActionListener {
 
+	JTextField txtField;
+
 	public DeleteSingleDialog(Frame parent, String title, boolean modal) {
 
 		super(parent, title, modal);
@@ -32,7 +34,7 @@ public class DeleteSingleDialog extends JDialog implements ActionListener {
 		try {
 
 			JLabel lbl1 = new JLabel("DeleteID:", SwingConstants.CENTER);
-			JTextField txtField = new JTextField("", SwingConstants.CENTER);
+			txtField = new JTextField("", SwingConstants.CENTER);
 
 			JButton ConfirmButton = new JButton("Confirm");
 			JButton CancelButton = new JButton("Cancel");
@@ -55,6 +57,8 @@ public class DeleteSingleDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("Cancel")) {
 			this.dispose();
 		} else {
+			MainFrame.getInstance().getDb().deleteEntity(txtField.getText());
+			MainFrame.getInstance().refresh();
 			this.dispose();
 		}
 

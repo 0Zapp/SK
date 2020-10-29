@@ -18,7 +18,7 @@ public class CustomHandler extends DBHandler {
 	}
 
 	@Override
-	public void dump(String path, List<Entity> data) {
+	public void dump(String path, String fileName, List<Entity> data) {
 		// TODO Auto-generated method stub
 
 	}

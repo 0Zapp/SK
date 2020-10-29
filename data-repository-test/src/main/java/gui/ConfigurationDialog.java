@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 
 public class ConfigurationDialog extends JDialog implements ActionListener {
 
+	JTextField txtField;
+
 	public ConfigurationDialog(Frame parent, String title, boolean modal) {
 
 		super(parent, title, modal);
@@ -32,7 +34,8 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
 		try {
 
 			JLabel lbl1 = new JLabel("Number of entities per file:", SwingConstants.CENTER);
-			JTextField txtField = new JTextField("50", SwingConstants.CENTER);
+			txtField = new JTextField(String.valueOf(MainFrame.getInstance().getDb().getEntitiesPerFile()),
+					SwingConstants.CENTER);
 
 			JButton ConfirmButton = new JButton("Confirm");
 			JButton CancelButton = new JButton("Cancel");
@@ -60,6 +63,7 @@ public class ConfigurationDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("Cancel")) {
 			this.dispose();
 		} else {
+			MainFrame.getInstance().getDb().setEntitiesPerFile(Integer.parseInt(txtField.getText()));
 			this.dispose();
 		}
 

@@ -41,9 +41,9 @@ public class JsonHandler extends DBHandler {
 	}
 
 	@Override
-	protected void dump(String path, List<Entity> data) {
+	protected void dump(String path, String fileName, List<Entity> data) {
 		try {
-			Writer writer = new FileWriter(path);
+			Writer writer = new FileWriter(path + "\\" + fileName);
 			Gson gson = new Gson();
 			gson.toJson(data, writer);
 			writer.close();

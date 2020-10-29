@@ -101,7 +101,7 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 						"Project", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons,
 						ObjButtons[0]);
 				if (PromptResult == 0) {// yes
-
+					db.saveData();
 					System.exit(0);
 				} else if (PromptResult == 1) {// no
 					System.exit(0);
