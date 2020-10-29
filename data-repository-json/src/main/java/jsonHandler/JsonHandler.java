@@ -21,6 +21,10 @@ public class JsonHandler extends DBHandler {
 		super(path, entitiesPerFile);
 	}
 
+	public JsonHandler(String path) throws Exception {
+		super(path);
+	}
+
 	@Override
 	protected List<Entity> load(String path) {
 		List<Entity> map = null;

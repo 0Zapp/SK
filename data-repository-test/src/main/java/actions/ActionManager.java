@@ -6,7 +6,6 @@ public class ActionManager {
 
 	private StartBrowseAction startBrowseAction;
 	private StartCancelAction startCancelAction;
-	private StartNewAction startNewAction;
 	private StartLaunchAction startLaunchAction;
 
 	private NewEntityAction newEntityAction;
@@ -38,7 +37,6 @@ public class ActionManager {
 	private void initialiseStartActions(StartFrame startFrame) {
 		startBrowseAction = new StartBrowseAction(startFrame);
 		startCancelAction = new StartCancelAction(startFrame);
-		startNewAction = new StartNewAction(startFrame);
 		startLaunchAction = new StartLaunchAction(startFrame);
 
 	}
@@ -53,10 +51,6 @@ public class ActionManager {
 
 	public StartLaunchAction getStartLaunchAction() {
 		return startLaunchAction;
-	}
-
-	public StartNewAction getStartNewAction() {
-		return startNewAction;
 	}
 
 	public UpdateAction getUpdateAction() {

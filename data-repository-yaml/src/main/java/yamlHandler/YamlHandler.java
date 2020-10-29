@@ -21,6 +21,11 @@ public class YamlHandler extends DBHandler {
 		// TODO Auto-generated constructor stub
 	}
 
+	public YamlHandler(String path) throws Exception {
+		super(path);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	protected List<Entity> load(String path) {
 		InputStream inputStream;

@@ -9,22 +9,29 @@ import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.tree.TreePath;
 
+import DBHandler.DBHandler;
 import actions.ActionManager;
+import model.Entity;
 
 public class MainFrame extends JFrame implements ClipboardOwner {
 
-	private MainFrame() {
+	DBHandler db;
+	ArrayList<Entity> entities;
 
+	private MainFrame(DBHandler db) {
+		this.db = db;
 	}
 
 	private static MainFrame instance = null;
@@ -32,20 +39,20 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 
 	private TreePath pathToParentOfSelectedNode;
 
-	private JScrollPane scroll;
-
 	private Toolkit kit;
 	private Dimension screenSize;
 	private int screenWidth;
 	private int screenHeight;
-	private JSplitPane split;
 	private MyToolbar toolbar;
-	private JPanel entityView;
+	private JTable entityView;
+	JScrollPane sp;
 
 	private Clipboard clipboard = new Clipboard("clipboard");
 
 	private void initialise() {
 		actionManager = new ActionManager();
+		db.loadData();
+		entities = (ArrayList<Entity>) db.getData();
 		initialiseGUI();
 
 		try {
@@ -74,17 +81,15 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 
 		setLocationRelativeTo(null);
 
-		scroll = new JScrollPane();
-		scroll.setPreferredSize(new Dimension(250, 250));
-		scroll.setMinimumSize((new Dimension(200, 200)));
-		scroll.setMaximumSize(new Dimension(300, 300));
+		String data[][] = generateData();
+		String column[] = { "ID", "NAME", "DATA" };
+		entityView = new JTable(data, column);
+		entityView.getColumnModel().getColumn(0).setPreferredWidth(50);
+		entityView.getColumnModel().getColumn(1).setPreferredWidth(50);
+		entityView.getColumnModel().getColumn(2).setPreferredWidth(600);
+		sp = new JScrollPane(entityView);
 
-		entityView = new JPanel();
-
-		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scroll, entityView);
-		add(split, BorderLayout.CENTER);
-		split.setDividerLocation(250);
-		split.setEnabled(false);
+		add(sp, BorderLayout.CENTER);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -108,16 +113,29 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 
 	}
 
+	private String[][] generateData() {
+		String[][] data = new String[entities.size()][3];
+		for (int i = 0; i < entities.size(); i++) {
+			data[i][0] = entities.get(i).getId();
+			data[i][1] = entities.get(i).getName();
+			data[i][2] = entities.get(i).getData().toString();
+		}
+		return data;
+	}
+
 	public ActionManager getActionManager() {
 		return actionManager;
 	}
 
-	public static MainFrame getInstance() {
+	public static MainFrame getInstance(DBHandler db) {
 		if (instance == null) {
-			instance = new MainFrame();
+			instance = new MainFrame(db);
 			instance.initialise();
-
 		}
+		return instance;
+	}
+
+	public static MainFrame getInstance() {
 		return instance;
 	}
 

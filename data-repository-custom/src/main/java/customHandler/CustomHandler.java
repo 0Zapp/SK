@@ -12,10 +12,15 @@ public class CustomHandler extends DBHandler {
 		// TODO Auto-generated constructor stub
 	}
 
+	public CustomHandler(String path) throws Exception {
+		super(path);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void dump(String path, List<Entity> data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

@@ -21,7 +21,6 @@ public class StartFrame extends JFrame {
 	JButton launchBtn;
 	JButton cancelButton;
 	JButton browseButton;
-	JButton newButton;
 	JLabel label;
 	JPanel pan1;
 	JPanel pan2;
@@ -55,8 +54,6 @@ public class StartFrame extends JFrame {
 		cancelButton.addActionListener(manager.getStartCancelAction());
 		browseButton = new JButton("Browse");
 		browseButton.addActionListener(manager.getStartBrowseAction());
-		newButton = new JButton("New");
-		newButton.addActionListener(manager.getStartNewAction());
 		label = new JLabel("Selected:");
 		textField = new JTextField();
 		textField.setPreferredSize(new Dimension(300, 20));
@@ -65,7 +62,6 @@ public class StartFrame extends JFrame {
 		pan1.add(label);
 		pan1.add(textField);
 		pan1.add(browseButton);
-		pan1.add(newButton);
 
 		pan2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pan2.add(launchBtn);
