@@ -1,0 +1,15 @@
+Ent
+id = Str abc
+name = Str abcsd
+data = Obj
+ats = Int 523
+abc = Str def
+obj = Ent
+id = Str qwfp
+name = Str luyl
+data = Obj
+EO
+EE
+wp = Bool true
+EO
+EE
