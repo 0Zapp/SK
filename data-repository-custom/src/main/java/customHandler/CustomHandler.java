@@ -1,11 +1,8 @@
 package customHandler;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -27,9 +24,10 @@ public class CustomHandler extends DBHandler {
 	protected List<Entity> load(String path) {
 		List<Entity> map = null;
 		try {
-			Reader reader = Files.newBufferedReader(Paths.get(path));
-			
-		} catch (IOException e) {
+			CustomDeserializer cd = new CustomDeserializer();
+			BufferedReader reader = Files.newBufferedReader(Paths.get(path));
+			map = cd.read(reader);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return map;
