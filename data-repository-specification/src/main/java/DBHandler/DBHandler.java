@@ -12,9 +12,9 @@ import javax.management.openmbean.KeyAlreadyExistsException;
 import model.Entity;
 
 /**
- * This class is bla bla
+ * This class is used for handling files
  * 
- * @author aut
+ * @author Marko Nedeljkovic, Mihajlo Krsmanovic
  * 
  */
 
@@ -26,10 +26,10 @@ public abstract class DBHandler {
 	private final String config = "config.txt";
 
 	/**
-	 * This is the description
+	 * Constructor
 	 * 
-	 * @param path
-	 * @param entitiesPerFile
+	 * @param path            database directory path.
+	 * @param entitiesPerFile number of enteties per singular file.
 	 * 
 	 */
 	public DBHandler(String path, int entitiesPerFile) {
@@ -45,6 +45,12 @@ public abstract class DBHandler {
 		}
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param path database directory path.
+	 * 
+	 */
 	public DBHandler(String path) throws Exception {
 		File f = new File(path, config);
 		try {
@@ -62,30 +68,36 @@ public abstract class DBHandler {
 	}
 
 	/**
-	 * This is the description
+	 * Method used for loading entities into memory.
 	 * 
-	 * @param path
-	 * @return HashMap
+	 * @param path path to the collection.
+	 * 
+	 * @return List<Entity> list of entities that are loaded.
 	 */
 	protected abstract List<Entity> load(String path);
 
 	/**
-	 * This is the description
+	 * Method used for putting data into the designated location.
 	 * 
-	 * @param path
-	 * @param fileName
-	 * @param data
+	 * @param path     path where data will be saved.
+	 * @param fileName name of the file in which our data will be saved.
+	 * @param data     List of entities to be saved.
 	 */
 	protected abstract void dump(String path, String fileName, List<Entity> data);
+
+	/**
+	 * Method used for loading entities into memory from base path.
+	 * 
+	 */
 
 	public void loadData() {
 		loadData(basePath);
 	}
 
 	/**
-	 * This is the description
+	 * Method used for loading entities into memory from designated path.
 	 * 
-	 * @param path
+	 * @param path designated location from where the entities are loaded.
 	 */
 	public void loadData(String path) {
 		File f = new File(path);
@@ -107,14 +119,19 @@ public abstract class DBHandler {
 		this.data = output;
 	};
 
+	/**
+	 * Method used for saving data into base location.
+	 * 
+	 */
+
 	public void saveData() {
 		saveData(basePath);
 	}
 
 	/**
-	 * This is the description
+	 * Method used for saving data into designated location.
 	 * 
-	 * @param path
+	 * @param path Designated location where data will be stored.
 	 */
 	public void saveData(String path) {
 		int storedElements = 0;
@@ -136,14 +153,13 @@ public abstract class DBHandler {
 	};
 
 	/**
-	 * This is the description;
+	 * Method used for searching through data.
 	 * 
-	 * @param key
-	 * @param value
-	 * @return ArrayList
+	 * @param key   represents the atribute which we intent to search on.
+	 * @param value represents the value of the atribute we are searching on.
+	 * @return ArrayList of all the entities that match the description.
 	 */
 	public List<Entity> searchData(String key, Object value) {
-		System.out.println("searching");
 		ArrayList<Entity> matchedEntities = new ArrayList<>();
 		for (Entity entity : data) {
 			if (entity.getData().get(key) != null && entity.getData().get(key).equals(value))
@@ -153,9 +169,9 @@ public abstract class DBHandler {
 	}
 
 	/**
-	 * This is the description
+	 * Method used for adding additional entities.
 	 * 
-	 * @param entity
+	 * @param entity entitiy which we intend to add.
 	 */
 	public void addEntity(Entity entity) {
 		for (Entity e : data)
@@ -165,9 +181,9 @@ public abstract class DBHandler {
 	}
 
 	/**
-	 * This is the description
+	 * Method used for removing a single entity.
 	 * 
-	 * @param key
+	 * @param key id of the entity we wish to remove.
 	 */
 	public void deleteEntity(String key) {
 		for (Entity e : data) {
@@ -179,9 +195,9 @@ public abstract class DBHandler {
 	}
 
 	/**
-	 * This is the description
+	 * Method used for removing multiple entities.
 	 * 
-	 * @param keys
+	 * @param keys ids of the entities we wish to remove.
 	 */
 	public void deleteEntities(ArrayList<String> keys) {
 		for (String key : keys)
@@ -189,9 +205,9 @@ public abstract class DBHandler {
 	}
 
 	/**
-	 * This is the description
+	 * Method used for modifiying a single entity.
 	 * 
-	 * @param entity
+	 * @param entity the entity we wish to edit.
 	 */
 	public void editEntity(Entity entity) {
 		for (Entity e : data) {
@@ -202,10 +218,10 @@ public abstract class DBHandler {
 	}
 
 	/**
-	 * This is the description
+	 * Method used for obtaining data.
 	 * 
-	 * @param keys
-	 * @return HashMap
+	 * @param keys list of ids of the entities we wish to get.
+	 * @return List list of entities that match the keys.
 	 */
 	public List<Entity> getData(ArrayList<String> keys) {
 		List<Entity> output = new ArrayList<>();
@@ -217,41 +233,46 @@ public abstract class DBHandler {
 	}
 
 	/**
-	 * This is the description
+	 * Method used for obtaining data.
 	 * 
-	 * @return HashMap
+	 * @return List list of all entities.
 	 */
 	public List<Entity> getData() {
 		return data;
 	}
 
 	/**
-	 * This is the description
+	 * Set data to a new list.
 	 * 
-	 * @param data
+	 * @param data new entities we wish to set our current collection to.
 	 */
 	public void setData(List<Entity> data) {
 		this.data = data;
 	}
 
 	/**
-	 * This is the description
+	 * Method used for obtaining our current Path.
 	 * 
-	 * @return String
+	 * @return String the path.
 	 */
 	public String getBasePath() {
 		return basePath;
 	}
 
 	/**
-	 * This is the description
+	 * method used for setting our path.
 	 * 
-	 * @param basePath
+	 * @param basePath path we wish to set our collection to.
 	 */
 	public void setBasePath(String basePath) {
 		this.basePath = basePath;
 	}
 
+	/**
+	 * method used for setting the amount of entities we wish to have per one file.
+	 * 
+	 * @param entitiesPerFile number of entities.
+	 */
 	public void setEntitiesPerFile(int entitiesPerFile) {
 		this.entitiesPerFile = entitiesPerFile;
 		try {
@@ -263,10 +284,20 @@ public abstract class DBHandler {
 		}
 	}
 
+	/**
+	 * method used for getting the amount of entities we wish to have per one file.
+	 * 
+	 * @return entitiesPerFile number of entities.
+	 */
 	public int getEntitiesPerFile() {
 		return entitiesPerFile;
 	}
 
+	/**
+	 * method used for deleting a collection of entities.
+	 * 
+	 * @param input entities we wish to delete.
+	 */
 	public void deleteEntities(List<Entity> input) {
 		for (Entity e : input) {
 			data.remove(e);
