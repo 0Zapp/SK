@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 
 public class SearchDialog extends JDialog implements ActionListener {
 
+	JTextField txtField;
+
 	public SearchDialog(Frame parent, String title, boolean modal) {
 
 		super(parent, title, modal);
@@ -31,8 +33,8 @@ public class SearchDialog extends JDialog implements ActionListener {
 
 		try {
 
-			JLabel lbl1 = new JLabel("Search:", SwingConstants.CENTER);
-			JTextField txtField = new JTextField("", SwingConstants.CENTER);
+			JLabel lbl1 = new JLabel("Search (key:value):", SwingConstants.CENTER);
+			txtField = new JTextField("", SwingConstants.CENTER);
 
 			JButton ConfirmButton = new JButton("Confirm");
 			JButton CancelButton = new JButton("Cancel");
@@ -60,6 +62,12 @@ public class SearchDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("Cancel")) {
 			this.dispose();
 		} else {
+			String[] tokens = txtField.getText().split(":");
+			if (tokens.length == 2) {
+				MainFrame.getInstance().refresh(MainFrame.getInstance().getDb().searchData(tokens[0], tokens[1]));
+			} else if (txtField.getText().isEmpty()) {
+				MainFrame.getInstance().refresh();
+			}
 			this.dispose();
 		}
 

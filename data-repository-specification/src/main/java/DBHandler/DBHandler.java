@@ -146,7 +146,7 @@ public abstract class DBHandler {
 		System.out.println("searching");
 		ArrayList<Entity> matchedEntities = new ArrayList<>();
 		for (Entity entity : data) {
-			if (entity.getData().get(key).equals(value))
+			if (entity.getData().get(key) != null && entity.getData().get(key).equals(value))
 				matchedEntities.add(entity);
 		}
 		return matchedEntities;
@@ -208,10 +208,10 @@ public abstract class DBHandler {
 	 * @return HashMap
 	 */
 	public List<Entity> getData(ArrayList<String> keys) {
-		List<Entity> output = new ArrayList<>(data);
-		for (Entity entity : output) {
-			if (!keys.contains(entity.getId()))
-				output.remove(entity);
+		List<Entity> output = new ArrayList<>();
+		for (Entity entity : data) {
+			if (keys.contains(entity.getId()))
+				output.add(entity);
 		}
 		return output;
 	}
@@ -265,5 +265,12 @@ public abstract class DBHandler {
 
 	public int getEntitiesPerFile() {
 		return entitiesPerFile;
+	}
+
+	public void deleteEntities(List<Entity> input) {
+		for (Entity e : input) {
+			data.remove(e);
+		}
+
 	}
 }

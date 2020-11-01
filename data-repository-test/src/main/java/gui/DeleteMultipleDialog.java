@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -16,7 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import model.Entity;
+
 public class DeleteMultipleDialog extends JDialog implements ActionListener {
+
+	JTextField txtField;
 
 	public DeleteMultipleDialog(Frame parent, String title, boolean modal) {
 
@@ -31,8 +36,8 @@ public class DeleteMultipleDialog extends JDialog implements ActionListener {
 
 		try {
 
-			JLabel lbl1 = new JLabel("Delete Parametars:", SwingConstants.CENTER);
-			JTextField txtField = new JTextField("", SwingConstants.CENTER);
+			JLabel lbl1 = new JLabel("Delete (key:value):", SwingConstants.CENTER);
+			txtField = new JTextField("", SwingConstants.CENTER);
 
 			JButton ConfirmButton = new JButton("Confirm");
 			JButton CancelButton = new JButton("Cancel");
@@ -60,6 +65,12 @@ public class DeleteMultipleDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("Cancel")) {
 			this.dispose();
 		} else {
+			String[] tokens = txtField.getText().split(":");
+			if (tokens.length == 2) {
+				List<Entity> lista = MainFrame.getInstance().getDb().searchData(tokens[0], tokens[1]);
+				MainFrame.getInstance().getDb().deleteEntities(lista);
+			}
+			MainFrame.getInstance().refresh();
 			this.dispose();
 		}
 

@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,7 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import model.Entity;
+
 public class AddSubentityDialog extends JDialog implements ActionListener {
+
+	JTextField childTxt;
+	JTextField parentTxt;
 
 	public AddSubentityDialog(Frame parent, String title, boolean modal) {
 
@@ -33,26 +39,20 @@ public class AddSubentityDialog extends JDialog implements ActionListener {
 		try {
 
 			JLabel parentLbl = new JLabel("Select Parent", SwingConstants.CENTER);
-			JComboBox<String> parentCombo = new JComboBox<String>();
-
-			JLabel KeyLbl = new JLabel("Select Key", SwingConstants.CENTER);
-			JComboBox<String> KeyCombo = new JComboBox<String>();
+			parentTxt = new JTextField();
 
 			JLabel childLbl = new JLabel("Select Child", SwingConstants.CENTER);
-			JComboBox<String> childCombo = new JComboBox<String>();
+			childTxt = new JTextField();
 
 			JButton ConfirmButton = new JButton("Confirm");
 			JButton CancelButton = new JButton("Cancel");
 
-			setLayout(new GridLayout(4, 2));
+			setLayout(new GridLayout(3, 2));
 			add(parentLbl);
-			add(parentCombo);
-
-			add(KeyLbl);
-			add(KeyCombo);
+			add(parentTxt);
 
 			add(childLbl);
-			add(childCombo);
+			add(childTxt);
 
 			add(ConfirmButton);
 			add(CancelButton);
@@ -69,6 +69,22 @@ public class AddSubentityDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("Cancel")) {
 			this.dispose();
 		} else {
+			ArrayList<String> p = new ArrayList<String>();
+			p.add(parentTxt.getText());
+			ArrayList<Entity> parent = (ArrayList<Entity>) MainFrame.getInstance().getDb().getData(p);
+
+			ArrayList<String> c = new ArrayList<String>();
+			c.add(childTxt.getText());
+			ArrayList<Entity> child = (ArrayList<Entity>) MainFrame.getInstance().getDb().getData(c);
+
+			if (!parent.isEmpty() && !child.isEmpty()) {
+
+				MainFrame.getInstance().getDb().deleteEntity(c.get(0));
+				parent.get(0).getData().put(child.get(0).getId(), child);
+				MainFrame.getInstance().refresh();
+
+			}
+
 			this.dispose();
 		}
 

@@ -10,6 +10,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -172,5 +173,21 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 			model.addRow(e);
 		}
 
+	}
+
+	public void refresh(List<Entity> searchData) {
+		entities = (ArrayList<Entity>) searchData;
+		String data[][] = generateData();
+		DefaultTableModel dm = (DefaultTableModel) entityView.getModel();
+		int rowCount = dm.getRowCount();
+		// Remove rows one by one from the end of the table
+		for (int i = rowCount - 1; i >= 0; i--) {
+			dm.removeRow(i);
+		}
+		for (String[] e : data) {
+			DefaultTableModel model = (DefaultTableModel) entityView.getModel();
+			model.addRow(e);
+		}
+		
 	}
 }
