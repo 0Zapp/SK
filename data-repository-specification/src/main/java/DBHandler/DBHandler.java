@@ -6,7 +6,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import model.Entity;
@@ -163,6 +166,46 @@ public abstract class DBHandler {
 		ArrayList<Entity> matchedEntities = new ArrayList<>();
 		for (Entity entity : data) {
 			if (entity.getData().get(key) != null && entity.getData().get(key).equals(value))
+				matchedEntities.add(entity);
+		}
+		return matchedEntities;
+	}
+	
+	public List<Entity> searchData(Map<String, Object> terms) {
+		ArrayList<Entity> matchedEntities = new ArrayList<>();
+		for (Entity entity : data) {
+			for (Map.Entry<String, Object> entry : terms.entrySet()) {
+				String key = entry.getKey();
+				Object value = entry.getValue();
+				if (entity.getData().get(key) != null && entity.getData().get(key).equals(value)) {
+					matchedEntities.add(entity);
+					break;
+				}
+			}
+		}
+		return matchedEntities;
+	}
+	
+	public List<Entity> sortById(List<Entity> inData, boolean ascending) {
+		if (ascending)
+			Collections.sort(inData);
+		else
+			Collections.reverse(inData);
+		return inData;
+	}
+	
+	public Entity searchById(String key) {
+		for (Entity entity : data) {
+			if (entity.getId().equals(key))
+				return entity;
+		}
+		return null;
+	}
+	
+	public List<Entity> searchByName(String key) {
+		ArrayList<Entity> matchedEntities = new ArrayList<>();
+		for (Entity entity : data) {
+			if (entity.getName().equals(key))
 				matchedEntities.add(entity);
 		}
 		return matchedEntities;

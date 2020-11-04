@@ -2,8 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.UUID;
 
-public class Entity implements Serializable {
+public class Entity implements Serializable, Comparable<Entity> {
 	private String id;
 	private String name;
 	private Map<String, Object> data;
@@ -44,6 +45,20 @@ public class Entity implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.data = data;
+	}
+	
+	public Entity(String name, Map<String, Object> data) {
+		this.id = UUID.randomUUID().toString();
+		this.name = name;
+		this.data = data;
+	}
+
+	@Override
+	public int compareTo(Entity e) {
+		if (getId() == null || e.getId() == null) {
+			return 0;
+		}
+		return getId().compareTo(e.getId());
 	}
 
 }
