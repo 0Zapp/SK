@@ -28,6 +28,9 @@ public class YamlHandler extends DBHandler {
 
 	@Override
 	protected List<Entity> load(String path) {
+		if (!path.endsWith(".yaml")) {
+			return null;
+		}
 		InputStream inputStream;
 		try {
 			inputStream = new FileInputStream(new File(path));

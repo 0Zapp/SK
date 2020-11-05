@@ -3,13 +3,13 @@ package actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
 
 import DBHandler.DBHandler;
+import customHandler.CustomHandler;
 import gui.MainFrame;
 import gui.StartFrame;
-import jsonHandler.JsonHandler;
+//import jsonHandler.JsonHandler;
+//import yamlHandler.YamlHandler;
 
 public class StartLaunchAction implements ActionListener {
 
@@ -27,9 +27,9 @@ public class StartLaunchAction implements ActionListener {
 			return;
 		}
 		try {
-			db = new JsonHandler(path);
+			db = new CustomHandler(path);
 		} catch (Exception e) {
-			db = new JsonHandler(path, 100);
+			db = new CustomHandler(path, 100);
 		}
 		MainFrame mf = MainFrame.getInstance(db);
 		startFrame.dispose();

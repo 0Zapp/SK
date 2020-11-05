@@ -22,11 +22,15 @@ public class CustomHandler extends DBHandler {
 
 	@Override
 	protected List<Entity> load(String path) {
+		if(!path.endsWith(".custom")) {
+			return null;
+		}
 		List<Entity> map = null;
 		try {
 			CustomDeserializer cd = new CustomDeserializer();
 			BufferedReader reader = Files.newBufferedReader(Paths.get(path));
 			map = cd.read(reader);
+			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,7 +40,7 @@ public class CustomHandler extends DBHandler {
 	@Override
 	protected void dump(String path, String fileName, List<Entity> data) {
 		try {
-			FileWriter writer = new FileWriter(path + "\\" + fileName);
+			FileWriter writer = new FileWriter(path + "\\" + fileName + ".custom");
 			BufferedWriter br = new BufferedWriter(writer);
 			CustomSerializer cs = new CustomSerializer();
 			cs.write(data, br);

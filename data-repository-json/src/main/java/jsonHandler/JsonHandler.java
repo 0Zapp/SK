@@ -27,6 +27,9 @@ public class JsonHandler extends DBHandler {
 
 	@Override
 	protected List<Entity> load(String path) {
+		if (!path.endsWith(".json")) {
+			return null;
+		}
 		List<Entity> map = null;
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(path));
@@ -43,7 +46,7 @@ public class JsonHandler extends DBHandler {
 	@Override
 	protected void dump(String path, String fileName, List<Entity> data) {
 		try {
-			Writer writer = new FileWriter(path + "\\" + fileName);
+			Writer writer = new FileWriter(path + "\\" + fileName + ".json");
 			Gson gson = new Gson();
 			gson.toJson(data, writer);
 			writer.close();

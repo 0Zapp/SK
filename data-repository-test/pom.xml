@@ -9,7 +9,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.komponente.projekat</groupId>
-			<artifactId>data-repository-json</artifactId>
+			<artifactId>data-repository-custom</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
