@@ -93,19 +93,28 @@ public class UpdateDialog extends JDialog implements ActionListener {
 			String name = nameField.getText();
 			Map<String, Object> data = new HashMap<String, Object>();
 			String area = dataArea.getText();
-			String tokens[] = area.split(",");
-			for (String token : tokens) {
-				String pairs[] = token.split(":");
-				data.put(pairs[0], pairs[1]);
+			try {
+				if (!area.equals("")) {
+					String tokens[] = area.split(",");
+					for (String token : tokens) {
+						String pairs[] = token.split(":");
+						data.put(pairs[0], pairs[1]);
+					}
+				}
+			} catch (Exception exception) {
+				System.out.println("Pogresan format u Data polju");
+				return;
 			}
 
 			Entity entity = new Entity(ID, name, data);
-			MainFrame.getInstance().getDb().editEntity(entity);
-			MainFrame.getInstance().refresh();
+			if (MainFrame.getInstance().getDb().editEntity(entity)) {
+				MainFrame.getInstance().refresh();
+				this.dispose();
+			} else {
+				System.out.println("Id is not valid");
+			}
 
-			this.dispose();
 		}
-
 	}
 
 }

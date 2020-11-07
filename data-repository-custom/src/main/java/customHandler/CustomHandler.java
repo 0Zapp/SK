@@ -22,7 +22,7 @@ public class CustomHandler extends DBHandler {
 
 	@Override
 	protected List<Entity> load(String path) {
-		if(!path.endsWith(".custom")) {
+		if (!path.endsWith(".custom")) {
 			return null;
 		}
 		List<Entity> map = null;

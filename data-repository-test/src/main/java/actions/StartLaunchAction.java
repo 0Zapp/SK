@@ -38,9 +38,10 @@ public class StartLaunchAction implements ActionListener {
 
 	public static boolean isValidPath(String path) {
 		File file = new File(path);
-		if (!file.isDirectory())
+		if (!file.isDirectory()) {
+			file.delete();
 			return false;
-		file.delete();
+		}
 		return true;
 	}
 

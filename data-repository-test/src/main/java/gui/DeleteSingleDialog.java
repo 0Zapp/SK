@@ -57,9 +57,12 @@ public class DeleteSingleDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("Cancel")) {
 			this.dispose();
 		} else {
-			MainFrame.getInstance().getDb().deleteEntity(txtField.getText());
-			MainFrame.getInstance().refresh();
-			this.dispose();
+			if(MainFrame.getInstance().getDb().deleteEntity(txtField.getText())) {
+				MainFrame.getInstance().refresh();
+				this.dispose();
+			}else {
+				System.out.println("Please enter a valid id");
+			}
 		}
 
 	}

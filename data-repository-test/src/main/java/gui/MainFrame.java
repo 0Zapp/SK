@@ -175,8 +175,8 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 
 	}
 
-	public void refresh(List<Entity> searchData) {
-		entities = (ArrayList<Entity>) searchData;
+	public void refresh(List<Entity> Data) {
+		entities = (ArrayList<Entity>) Data;
 		String data[][] = generateData();
 		DefaultTableModel dm = (DefaultTableModel) entityView.getModel();
 		int rowCount = dm.getRowCount();
@@ -188,6 +188,12 @@ public class MainFrame extends JFrame implements ClipboardOwner {
 			DefaultTableModel model = (DefaultTableModel) entityView.getModel();
 			model.addRow(e);
 		}
-		
+
+	}
+
+	public void refresh(Entity e) {
+		List<Entity> data = new ArrayList<Entity>();
+		data.add(e);
+		refresh(data);
 	}
 }

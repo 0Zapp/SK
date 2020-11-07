@@ -69,9 +69,12 @@ public class DeleteMultipleDialog extends JDialog implements ActionListener {
 			if (tokens.length == 2) {
 				List<Entity> lista = MainFrame.getInstance().getDb().searchData(tokens[0], tokens[1]);
 				MainFrame.getInstance().getDb().deleteEntities(lista);
+				MainFrame.getInstance().refresh();
+				this.dispose();
+			} else {
+				System.out.println("format nije validan");
 			}
-			MainFrame.getInstance().refresh();
-			this.dispose();
+
 		}
 
 	}

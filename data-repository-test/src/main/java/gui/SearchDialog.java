@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -33,7 +35,7 @@ public class SearchDialog extends JDialog implements ActionListener {
 
 		try {
 
-			JLabel lbl1 = new JLabel("Search (key:value):", SwingConstants.CENTER);
+			JLabel lbl1 = new JLabel("Search (key:value,key:value...):", SwingConstants.CENTER);
 			txtField = new JTextField("", SwingConstants.CENTER);
 
 			JButton ConfirmButton = new JButton("Confirm");
@@ -64,11 +66,37 @@ public class SearchDialog extends JDialog implements ActionListener {
 		} else {
 			String[] tokens = txtField.getText().split(":");
 			if (tokens.length == 2) {
-				MainFrame.getInstance().refresh(MainFrame.getInstance().getDb().searchData(tokens[0], tokens[1]));
+				if (tokens[0].toLowerCase().equals("id")) {
+					MainFrame.getInstance().refresh(MainFrame.getInstance().getDb().searchById(tokens[1]));
+					this.dispose();
+				} else if (tokens[0].toLowerCase().equals("name")) {
+					MainFrame.getInstance().refresh(MainFrame.getInstance().getDb().searchByName(tokens[1]));
+					this.dispose();
+				} else {
+					MainFrame.getInstance().refresh(MainFrame.getInstance().getDb().searchData(tokens[0], tokens[1]));
+					this.dispose();
+				}
 			} else if (txtField.getText().isEmpty()) {
 				MainFrame.getInstance().refresh();
+				this.dispose();
+			} else {
+				Map<String, Object> data = new HashMap<String, Object>();
+				try {
+
+					String tok[] = txtField.getText().split(",");
+					for (String token : tok) {
+						String pairs[] = token.split(":");
+						data.put(pairs[0], pairs[1]);
+					}
+
+				} catch (Exception exception) {
+					System.out.println("Pogresan format");
+					return;
+				}
+				MainFrame.getInstance().refresh(MainFrame.getInstance().getDb().searchData(data));
+				this.dispose();
 			}
-			this.dispose();
+
 		}
 
 	}

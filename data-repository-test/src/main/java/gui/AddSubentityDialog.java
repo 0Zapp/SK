@@ -77,15 +77,19 @@ public class AddSubentityDialog extends JDialog implements ActionListener {
 			c.add(childTxt.getText());
 			ArrayList<Entity> child = (ArrayList<Entity>) MainFrame.getInstance().getDb().getData(c);
 
+			if (parent.isEmpty()) {
+				System.out.println("Parent Id nije validan");
+			} else if (child.isEmpty()) {
+				System.out.println("Child Id nije validan");
+			}
 			if (!parent.isEmpty() && !child.isEmpty()) {
 
 				MainFrame.getInstance().getDb().deleteEntity(c.get(0));
 				parent.get(0).getData().put(child.get(0).getId(), child);
 				MainFrame.getInstance().refresh();
-
+				this.dispose();
 			}
 
-			this.dispose();
 		}
 
 	}

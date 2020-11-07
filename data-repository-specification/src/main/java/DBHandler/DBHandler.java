@@ -113,9 +113,11 @@ public abstract class DBHandler {
 			File f2 = new File(path, pathname);
 			try {
 				List<Entity> loaded = load(f2.getPath());
-				output.addAll(loaded);
+				if (loaded != null) {
+					output.addAll(loaded);
+				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("added nothing");
 			}
 
 		}
@@ -170,7 +172,7 @@ public abstract class DBHandler {
 		}
 		return matchedEntities;
 	}
-	
+
 	public List<Entity> searchData(Map<String, Object> terms) {
 		ArrayList<Entity> matchedEntities = new ArrayList<>();
 		for (Entity entity : data) {
@@ -185,7 +187,7 @@ public abstract class DBHandler {
 		}
 		return matchedEntities;
 	}
-	
+
 	public List<Entity> sortById(List<Entity> inData, boolean ascending) {
 		if (ascending)
 			Collections.sort(inData);
@@ -193,7 +195,7 @@ public abstract class DBHandler {
 			Collections.reverse(inData);
 		return inData;
 	}
-	
+
 	public Entity searchById(String key) {
 		for (Entity entity : data) {
 			if (entity.getId().equals(key))
@@ -201,7 +203,7 @@ public abstract class DBHandler {
 		}
 		return null;
 	}
-	
+
 	public List<Entity> searchByName(String key) {
 		ArrayList<Entity> matchedEntities = new ArrayList<>();
 		for (Entity entity : data) {
@@ -227,14 +229,16 @@ public abstract class DBHandler {
 	 * Method used for removing a single entity.
 	 * 
 	 * @param key id of the entity we wish to remove.
+	 * @return if the entity is deleted or not
 	 */
-	public void deleteEntity(String key) {
+	public boolean deleteEntity(String key) {
 		for (Entity e : data) {
 			if (e.getId().equals(key)) {
 				data.remove(e);
-				return;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	/**
@@ -251,13 +255,16 @@ public abstract class DBHandler {
 	 * Method used for modifiying a single entity.
 	 * 
 	 * @param entity the entity we wish to edit.
+	 * @return if the entity was edited or not
 	 */
-	public void editEntity(Entity entity) {
+	public boolean editEntity(Entity entity) {
 		for (Entity e : data) {
 			if (e.getId().equals(entity.getId())) {
 				data.set(data.indexOf(e), entity);
+				return true;
 			}
 		}
+		return false;
 	}
 
 	/**
