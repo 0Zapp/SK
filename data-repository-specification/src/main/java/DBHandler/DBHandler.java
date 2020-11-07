@@ -52,6 +52,7 @@ public abstract class DBHandler {
 	 * Constructor
 	 * 
 	 * @param path database directory path.
+	 * @throws blablabla
 	 * 
 	 */
 	public DBHandler(String path) throws Exception {
